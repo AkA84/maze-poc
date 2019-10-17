@@ -1,0 +1,52 @@
+:root {
+  --maze-background-color: #eee;
+  --cell-border-color: #555;
+  --cell-size: 38px;
+}
+
+.maze {
+  background: var(--maze-background-color);
+  border: 1px solid var(--cell-border-color);
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+}
+
+.maze-cell {
+  align-items: center;
+  border: 1px solid transparent;
+  display: flex;
+  height: var(--cell-size);
+  justify-content: center;
+  margin: -1px 0 0 -1px;
+  width: var(--cell-size);
+}
+
+.maze-cell--wall-west {
+  border-left-color: var(--cell-border-color);
+}
+
+.maze-cell--wall-north {
+  border-top-color: var(--cell-border-color);
+}
+
+.maze-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.maze-row {
+  display: flex;
+}
+
+.message {
+  font-weight: 600;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.wrapper-col:not(:last-child) {
+  margin-right: 30px;
+}
+

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test 1`] = `
+<div
+  className="maze-cell--wall-north maze-cell--wall-west maze-cell"
+>
+  P
+</div>
+`;

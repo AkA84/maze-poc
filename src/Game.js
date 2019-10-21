@@ -22,6 +22,7 @@ function Game() {
   useEffect(() => {
     (async function init () {
       const newMaze = await createMaze(DEFAULT_SETTINGS);
+      moves.current = newMaze.findWinningMoves();
 
       setMaze(newMaze);
       setLoading(false);
@@ -30,7 +31,7 @@ function Game() {
 
   // Main loop of the game:
   // 1 - Check if game over
-  // 2 - Get the winning moves (if it's the first iteration)
+  // 2 - Check if the monster is going to get the pony
   // 3 - Make the next move
   // 4 - Refresh the maze data
   // 5 - Trigger a re-render
@@ -40,8 +41,6 @@ function Game() {
         setGameOver(true);
         return;
       }
-
-      moves.current = moves.current || maze.findWinningMoves();
 
       const willCatch = maze.isMonsterInTheWay(moves.current);
       setWillCatch(willCatch);
@@ -98,6 +97,7 @@ function Game() {
     const newSettings = processSubmittedValues(e.target);
     const newMaze = await createMaze(newSettings);
 
+    moves.current = newMaze.findWinningMoves();
     setMaze(newMaze);
     setLoading(false);
   }
@@ -106,8 +106,6 @@ function Game() {
    * Deletes the old winning moves, and resets any game-related state
    */
   function resetGame () {
-    moves.current = null;
-
     setWillCatch(false);
     setGameOver(false);
   }

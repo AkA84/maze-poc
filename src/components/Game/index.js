@@ -32,6 +32,8 @@ function Game() {
   // 4 - Refresh the maze data
   // 5 - Trigger a re-render
   useEffect(() => {
+    let didCancel = false;
+
     async function mainLoop () {
       if (['over', 'won'].includes(maze['game-state'].state)) {
         setGameOver(true);
@@ -44,12 +46,16 @@ function Game() {
       await maze.moveTo(moves.current.shift());
       await maze.refresh();
 
-      const updatedMaze = cloneDeep(maze);
-      setMaze(updatedMaze);
+      if (!didCancel) {
+        const updatedMaze = cloneDeep(maze);
+        setMaze(updatedMaze);
+      }
     }
 
     // Loop can start only if a maze had been loaded
     maze.maze_id && !loading && mainLoop();
+
+    return () => { didCancel = true; };
   }, [maze, loading])
 
   return (
@@ -79,7 +85,7 @@ function Game() {
 
   /**
    * Handles the submissions of the new maze settings
-  *
+   *
    * @param {object} e
    */
   async function onNewSettingsSubmit (e) {

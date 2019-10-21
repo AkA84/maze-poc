@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import cloneDeep from "lodash/cloneDeep"
 
-import { createMaze } from "./maze";
-import Maze from "./components/Maze";
-import Form from "./components/Form";
+import { createMaze } from "../../maze";
+import Maze from "../Maze";
+import Form from "../Form";
 
 const DEFAULT_SETTINGS = {
   "maze-width": 15,

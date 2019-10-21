@@ -1,6 +1,8 @@
 import React from "react";
 import Cell from "./Cell";
 
+import './Maze.css';
+
 function Maze ({ maze }) {
   const [ width, height ] = maze.size;
 

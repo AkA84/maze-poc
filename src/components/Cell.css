@@ -1,0 +1,17 @@
+.maze-cell {
+  align-items: center;
+  border: 1px solid transparent;
+  display: flex;
+  height: var(--cell-size);
+  justify-content: center;
+  margin: -1px 0 0 -1px;
+  width: var(--cell-size);
+}
+
+.maze-cell--wall-west {
+  border-left-color: var(--cell-border-color);
+}
+
+.maze-cell--wall-north {
+  border-top-color: var(--cell-border-color);
+}

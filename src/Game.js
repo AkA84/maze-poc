@@ -21,11 +21,7 @@ function Game() {
   // Init
   useEffect(() => {
     (async function init () {
-      const newMaze = await createMaze(DEFAULT_SETTINGS);
-      moves.current = newMaze.findWinningMoves();
-
-      setMaze(newMaze);
-      setLoading(false);
+      await restartGame(DEFAULT_SETTINGS);
     }());
   }, []);
 
@@ -82,32 +78,15 @@ function Game() {
   );
 
   /**
-   * Handles the submissions of new settings
-   *
-   * Resets the game, creates a new maze and kicks off the game again
-   *
+   * Handles the submissions of the new maze settings
+  *
    * @param {object} e
    */
   async function onNewSettingsSubmit (e) {
     e.preventDefault();
 
-    setLoading(true);
-    resetGame();
-
     const newSettings = processSubmittedValues(e.target);
-    const newMaze = await createMaze(newSettings);
-
-    moves.current = newMaze.findWinningMoves();
-    setMaze(newMaze);
-    setLoading(false);
-  }
-
-  /**
-   * Deletes the old winning moves, and resets any game-related state
-   */
-  function resetGame () {
-    setWillCatch(false);
-    setGameOver(false);
+    await restartGame(newSettings);
   }
 
   /**
@@ -124,6 +103,24 @@ function Game() {
         acc[el.name] = parseInt(el.value, 10)
         return acc;
       }, {});
+  }
+
+  /**
+   * Resets the game, creates a new maze based on the given settings
+   * and kicks off the game again
+   *
+   * @param {object} settings
+   */
+  async function restartGame (settings) {
+    setLoading(true);
+    setWillCatch(false);
+    setGameOver(false);
+
+    const newMaze = await createMaze(settings);
+    moves.current = newMaze.findWinningMoves();
+
+    setMaze(newMaze);
+    setLoading(false);
   }
 }
 

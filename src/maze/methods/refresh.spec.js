@@ -1,7 +1,7 @@
-import api from '../api.js';
-import { refresh } from './refresh.js';
+import api from '../api';
+import { refresh } from './refresh';
 
-jest.mock('../api.js');
+jest.mock('../api');
 
 let mockedMaze = {};
 

@@ -1,4 +1,4 @@
-import api from "../api.js";
+import api from "../api";
 
 /**
  * Will refresh (= get the data from the remote api) the maze of the given id,

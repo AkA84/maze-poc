@@ -1,7 +1,7 @@
-import api from '../api.js';
-import { print } from './print.js';
+import api from '../api';
+import { print } from './print';
 
-jest.mock('../api.js');
+jest.mock('../api');
 
 let mockedMaze = {};
 

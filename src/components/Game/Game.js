@@ -96,22 +96,6 @@ function Game() {
   }
 
   /**
-   * Simple and direct way to extract the values from the submitted form
-   * (minus the submit button) and put them in an object
-   *
-   * @param {object} form
-   * @returns {object}
-   */
-  function processSubmittedValues (form) {
-    return Array.from(form.elements)
-      .filter(el => el.type !== 'submit')
-      .reduce((acc, el) => {
-        acc[el.name] = parseInt(el.value, 10)
-        return acc;
-      }, {});
-  }
-
-  /**
    * Resets the game, creates a new maze based on the given settings
    * and kicks off the game again
    *
@@ -128,6 +112,22 @@ function Game() {
     setMaze(newMaze);
     setLoading(false);
   }
+}
+
+/**
+ * Simple and direct way to extract the values from the submitted form
+ * (minus the submit button) and put them in an object
+ *
+ * @param {object} form
+ * @returns {object}
+ */
+function processSubmittedValues (form) {
+  return Array.from(form.elements)
+    .filter(el => el.type !== 'submit')
+    .reduce((acc, el) => {
+      acc[el.name] = parseInt(el.value, 10)
+      return acc;
+    }, {});
 }
 
 export default Game;

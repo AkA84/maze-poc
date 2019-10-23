@@ -61,23 +61,18 @@ function Game() {
   }, [maze, loading])
 
   return (
-    <>
-      <h1>
-        <img src="http://cdn.trustpilot.net/brand-assets/1.7.0/logo-black.svg" height="70" alt="TrustPilot" />
-      </h1>
-      <div className="wrapper">
-        <div className="wrapper-col">
-          <Form settings={DEFAULT_SETTINGS} onSubmit={memoOnNewSettingsSubmit} />
-          <div className="message">
-            {(!isGameOver && willCatch) && <p>It's going to get you!</p>}
-            {isGameOver && <p>{maze['game-state']['state-result']}</p>}
-          </div>
-        </div>
-        <div className="wrapper-col">
-          { loading ? 'loading...' : <Maze maze={maze} /> }
+    <div className="wrapper">
+      <div className="wrapper-col">
+        <Form settings={DEFAULT_SETTINGS} onSubmit={memoOnNewSettingsSubmit} />
+        <div className="message">
+          {(!isGameOver && willCatch) && <p>It's going to get you!</p>}
+          {isGameOver && <p>{maze['game-state']['state-result']}</p>}
         </div>
       </div>
-    </>
+      <div className="wrapper-col">
+        { loading ? 'loading...' : <Maze maze={maze} /> }
+      </div>
+    </div>
   );
 
   /**

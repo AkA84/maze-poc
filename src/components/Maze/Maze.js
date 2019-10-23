@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import Cell from "../Cell";
 
 import './Maze.css';
@@ -45,6 +46,16 @@ function getCellContent (cellIndex, maze) {
   }
 
   return null;
+}
+
+Maze.propTypes = {
+  maze: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+    size: PropTypes.arrayOf(PropTypes.number),
+    domokun: PropTypes.arrayOf(PropTypes.number),
+    pony: PropTypes.arrayOf(PropTypes.number),
+    'end-point': PropTypes.arrayOf(PropTypes.number)
+  }).isRequired
 }
 
 export default Maze;

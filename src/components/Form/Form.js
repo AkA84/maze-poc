@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Form.css';
 
 function Form (props) {
@@ -21,6 +22,15 @@ function Form (props) {
       </form>
     </div>
   )
+}
+
+Form.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  settings: PropTypes.exact({
+    'maze-width': PropTypes.number,
+    'maze-height': PropTypes.number,
+    'difficulty': PropTypes.number
+  }).isRequired
 }
 
 export default Form;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Cell.css';
 
 const INITIALS = {
@@ -18,5 +19,9 @@ function Cell (props) {
     </div>
   );
 }
+
+Cell.propTypes = {
+  walls: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default Cell;

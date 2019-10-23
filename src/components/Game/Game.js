@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import cloneDeep from "lodash/cloneDeep"
 
 import { createMaze } from "../../maze";
@@ -17,6 +17,8 @@ function Game() {
   const [willCatch, setWillCatch] = useState(false);
   const [isGameOver, setGameOver] = useState(false);
   const moves = useRef();
+
+  const memoOnNewSettingsSubmit = useCallback(onNewSettingsSubmit, []);
 
   // Init
   useEffect(() => {
@@ -65,7 +67,7 @@ function Game() {
       </h1>
       <div className="wrapper">
         <div className="wrapper-col">
-          <Form settings={DEFAULT_SETTINGS} onSubmit={onNewSettingsSubmit} />
+          <Form settings={DEFAULT_SETTINGS} onSubmit={memoOnNewSettingsSubmit} />
           <div className="message">
             {(!isGameOver && willCatch) && <p>It's going to get you!</p>}
             {isGameOver && <p>{maze['game-state']['state-result']}</p>}

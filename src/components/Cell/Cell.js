@@ -8,14 +8,14 @@ const INITIALS = {
   pony: 'P'
 };
 
-function Cell (props) {
-  const classes = props.walls.map(wall => `maze-cell--wall-${wall}`)
+function Cell ({ content, walls }) {
+  const classes = walls.map(wall => `maze-cell--wall-${wall}`)
     .concat(['maze-cell'])
     .join(' ');
 
   return (
     <div className={classes}>
-      {props.content && INITIALS[props.content]}
+      {content && INITIALS[content]}
     </div>
   );
 }
@@ -24,4 +24,9 @@ Cell.propTypes = {
   walls: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default Cell;
+export default React.memo(Cell, (prevProps, nextProps) => {
+  return (
+    prevProps.content === nextProps.content &&
+    prevProps.walls.join('') === nextProps.walls.join('')
+  );
+});

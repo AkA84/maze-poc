@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {cleanup, render} from '@testing-library/react';
-import Cell from './';
+import Cell from './Cell';
 
 let walls;
 

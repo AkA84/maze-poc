@@ -1,21 +1,18 @@
-const ENDPOINT = 'https://ponychallenge.trustpilot.com/pony-challenge/maze';
+const BASE_ENDPOINT = 'https://ponychallenge.trustpilot.com/pony-challenge/maze';
 
 const api = {
   /**
-   * Creates a new maze and returns its id
+   * Creates a new maze based on the given settings and returns its id
    *
    * @param {object} settings
    * @returns {number}
    */
   create: async function (settings) {
-    const response = await fetch(ENDPOINT, {
+    const response = await sendRequest({
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(Object.assign({
+      body: Object.assign({
         "maze-player-name": "Applejack",
-      }, settings))
+      }, settings)
     });
 
     const { maze_id } = await response.json();
@@ -28,7 +25,11 @@ const api = {
    * @returns {Promise}
    */
   fetch: async function (mazeId) {
-    return await (await fetch(`${ENDPOINT}/${mazeId}`)).json();
+    const response = await sendRequest({
+      path: `/${mazeId}`
+    });
+
+    return await response.json();
   },
 
   /**
@@ -36,15 +37,12 @@ const api = {
    * @param {number} mazeId
    */
   move: async function (move, mazeId) {
-    await fetch(`${ENDPOINT}/${mazeId}`, {
+    await sendRequest({
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'direction': move.direction
-      })
+      path: `/${mazeId}`,
+      body: {
+        direction: move.direction
+      }
     });
   },
 
@@ -53,8 +51,56 @@ const api = {
    * @returns {Promise}
    */
   print: async function (mazeId) {
-    return await (await fetch(`${ENDPOINT}/${mazeId}/print`)).text();
+    const response = await sendRequest({
+      path: `/${mazeId}/print`
+    });
+
+    return await response.text();
   }
 };
+
+/**
+ * Makes the actual api request
+ *
+ * @param {*} options
+ * @return {object} The response
+ */
+async function sendRequest (options) {
+  const { path, ...fetchOptions } = options;
+
+  return await fetch(
+    path ? `${BASE_ENDPOINT}${path}` : BASE_ENDPOINT,
+    prepareFetchOptions(fetchOptions)
+  );
+}
+
+/**
+ * Prepares the fetch() options based on default and custom values
+ *
+ * @param {object} customOptions
+ * @return {object}
+ */
+function prepareFetchOptions (customOptions) {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
+  if (customOptions.body) {
+    options.body = JSON.stringify(customOptions.body);
+  }
+
+  if (customOptions.method) {
+    options.method = customOptions.method;
+
+    if (customOptions.method === 'POST') {
+      options.headers['Content-Type'] = 'application/json';
+    }
+  }
+
+  return options;
+}
 
 export default api;

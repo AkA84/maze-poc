@@ -125,6 +125,16 @@ const submitHandler = (e) => { ... };
 
 Displays the form to create a new maze based on the settings submitted by the user.
 
+#### `<Error message={errorMessage} />`
+
+```jsx
+const errorMessage = 'Some error message';
+
+<Error message={errorMessage} />
+```
+
+Displays an error message in a styled panel
+
 ### Tests
 
 There are tests provided for the `maze`'s methods and for the `<Cell />` component, although by no means they are supposed to be comprehensive.

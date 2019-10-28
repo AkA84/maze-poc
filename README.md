@@ -98,10 +98,10 @@ The parent component, is in charge of initializing,  running, and restarting the
 #### `<Maze />`
 
 ```jsx
-<Maze maze={maze} />
+<Maze />
 ```
 
-Accepting a `maze` object (see above), it takes care of creating the rows and columns that make up the maze, and of filling them with the `<Cell />`s components.
+Takes care of creating the rows and columns that make up the maze, and of filling them with the `<Cell />`s components.
 
 #### `<Cell />`
 

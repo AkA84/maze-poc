@@ -7,6 +7,8 @@ import Maze from "../Maze";
 import Form from "../Form";
 import Error from "../Error";
 
+import "./Game.css";
+
 const DEFAULT_SETTINGS = {
   "maze-width": 15,
   "maze-height": 15,
@@ -73,15 +75,15 @@ function Game() {
   return (
     <>
       {error && <Error message={error} />}
-      <div className="wrapper">
-        <div className="wrapper-col">
+      <div className="game">
+        <div className="game-col">
           <Form settings={DEFAULT_SETTINGS} onSubmit={memoOnNewSettingsSubmit} />
-          <div className="message">
+          <div className="game-message">
             {(!isGameOver && willCatch) && <p>It's going to get you!</p>}
             {isGameOver && <p>{maze['game-state']['state-result']}</p>}
           </div>
         </div>
-        <div className="wrapper-col">
+        <div className="game-col">
           { loading ? 'loading...' : <Maze maze={maze} /> }
         </div>
       </div>

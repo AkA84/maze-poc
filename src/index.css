@@ -4,11 +4,6 @@
   --cell-size: 38px;
 }
 
-.wrapper {
-  display: flex;
+body {
+  font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
-
-.wrapper-col:not(:last-child) {
-  margin-right: 30px;
-}
-

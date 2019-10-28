@@ -1,0 +1,12 @@
+.game {
+  display: flex;
+}
+
+.game-col:not(:last-child) {
+  margin-right: 30px;
+}
+
+.game-message {
+  font-weight: 600;
+}
+

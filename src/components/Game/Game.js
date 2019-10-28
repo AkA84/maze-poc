@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import cloneDeep from "lodash/cloneDeep"
 
 import { createMaze } from "../../maze";
+
 import Maze from "../Maze";
 import Form from "../Form";
+import Error from "../Error";
 
 const DEFAULT_SETTINGS = {
   "maze-width": 15,
@@ -16,6 +18,7 @@ function Game() {
   const [maze, setMaze] = useState({});
   const [willCatch, setWillCatch] = useState(false);
   const [isGameOver, setGameOver] = useState(false);
+  const [error, setError] = useState(null);
   const moves = useRef();
 
   const memoOnNewSettingsSubmit = useCallback(onNewSettingsSubmit, []);
@@ -37,6 +40,8 @@ function Game() {
     let didCancel = false;
 
     async function mainLoop () {
+      setError(null);
+
       if (['over', 'won'].includes(maze['game-state'].state)) {
         setGameOver(true);
         return;
@@ -45,8 +50,13 @@ function Game() {
       const willCatch = maze.isMonsterInTheWay(moves.current);
       setWillCatch(willCatch);
 
-      await maze.moveTo(moves.current.shift());
-      await maze.refresh();
+      try {
+        await maze.moveTo(moves.current.shift());
+        await maze.refresh();
+      } catch ({ name, message }) {
+        setError(message);
+        return;
+      }
 
       if (!didCancel) {
         const updatedMaze = cloneDeep(maze);
@@ -61,18 +71,21 @@ function Game() {
   }, [maze, loading])
 
   return (
-    <div className="wrapper">
-      <div className="wrapper-col">
-        <Form settings={DEFAULT_SETTINGS} onSubmit={memoOnNewSettingsSubmit} />
-        <div className="message">
-          {(!isGameOver && willCatch) && <p>It's going to get you!</p>}
-          {isGameOver && <p>{maze['game-state']['state-result']}</p>}
+    <>
+      {error && <Error message={error} />}
+      <div className="wrapper">
+        <div className="wrapper-col">
+          <Form settings={DEFAULT_SETTINGS} onSubmit={memoOnNewSettingsSubmit} />
+          <div className="message">
+            {(!isGameOver && willCatch) && <p>It's going to get you!</p>}
+            {isGameOver && <p>{maze['game-state']['state-result']}</p>}
+          </div>
+        </div>
+        <div className="wrapper-col">
+          { loading ? 'loading...' : <Maze maze={maze} /> }
         </div>
       </div>
-      <div className="wrapper-col">
-        { loading ? 'loading...' : <Maze maze={maze} /> }
-      </div>
-    </div>
+    </>
   );
 
   /**
@@ -94,15 +107,20 @@ function Game() {
    * @param {object} settings
    */
   async function restartGame (settings) {
+    setError(null);
     setLoading(true);
     setWillCatch(false);
     setGameOver(false);
 
-    const newMaze = await createMaze(settings);
-    moves.current = newMaze.findWinningMoves();
+    try {
+      const newMaze = await createMaze(settings);
+      moves.current = newMaze.findWinningMoves();
 
-    setMaze(newMaze);
-    setLoading(false);
+      setMaze(newMaze);
+      setLoading(false);
+    } catch ({ name, message }) {
+      setError(message);
+    }
   }
 }
 

@@ -64,14 +64,25 @@ const api = {
  *
  * @param {*} options
  * @return {object} The response
+ * @throws {Error}
  */
 async function sendRequest (options) {
   const { path, ...fetchOptions } = options;
 
-  return await fetch(
-    path ? `${BASE_ENDPOINT}${path}` : BASE_ENDPOINT,
-    prepareFetchOptions(fetchOptions)
-  );
+  try {
+    const response = await fetch(
+      path ? `${BASE_ENDPOINT}${path}` : BASE_ENDPOINT,
+      prepareFetchOptions(fetchOptions)
+    );
+
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+
+    return response;
+  } catch (e) {
+    throw e;
+  }
 }
 
 /**

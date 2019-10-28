@@ -7,7 +7,7 @@ import { createMaze } from "../maze";
 /**
  * @param {object} action.payload The settings of the new maze
  */
-function* createNewMaze (action) {
+export function* createNewMaze (action) {
   yield put(setError(null));
   yield put(setLoading(true));
 

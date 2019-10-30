@@ -3,7 +3,7 @@
 }
 
 .game-col:not(:last-child) {
-  margin-right: 30px;
+  margin-right: 1.875rem;
 }
 
 .game-message {

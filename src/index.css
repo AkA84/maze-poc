@@ -1,7 +1,7 @@
 :root {
   --maze-background-color: #eee;
   --cell-border-color: #555;
-  --cell-size: 38px;
+  --cell-size: 2.375rem;
 }
 
 body {
